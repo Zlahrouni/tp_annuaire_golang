@@ -31,15 +31,13 @@ func main() {
 		searchDir(dir, *name)
 	case "add":
 		addDir(dir, *name, *phone)
-	case "modify":
-		fmt.Println("modify")
+	case "update":
+		updateDir(dir, *name, *phone)
 	case "delete":
 		deleteDir(dir, *name)
 	default:
 		fmt.Println("Unknown action")
 	}
-
-	listDir(dir)
 }
 
 func paramVerif(name string, phone string, ageStr string) {
@@ -58,7 +56,20 @@ func paramVerif(name string, phone string, ageStr string) {
 }
 
 func listDir(dir map[string]info) {
-	fmt.Println(dir)
+	dirLen := len(dir)
+	if dirLen == 0 {
+		println("Empty directory")
+		return
+	} else {
+		suffix := ""
+		if dirLen > 1 {
+			suffix = "s"
+		}
+		fmt.Printf("%d person%s found\n", dirLen, suffix)
+	}
+	for name, pinfo := range dir {
+		printPerson(name, pinfo)
+	}
 }
 
 func searchDir(dir map[string]info, name string) {
@@ -71,9 +82,8 @@ func searchDir(dir map[string]info, name string) {
 }
 
 func printPerson(name string, personInfo info) {
-	fmt.Println("--------------------------")
-	fmt.Printf("Name: %s \nPhone number: %s\n", name, personInfo, personInfo.phone)
-	fmt.Println("--------------------------")
+	fmt.Printf("Name: %s \nPhone number: %s\n", name, personInfo.phone)
+	fmt.Println("-----------------------")
 }
 
 func addDir(dir map[string]info, name string, phone string) {
@@ -84,6 +94,9 @@ func addDir(dir map[string]info, name string, phone string) {
 	}
 
 	dir[name] = info{phone: phone}
+
+	fmt.Println("List updated : ")
+	listDir(dir)
 }
 
 func deleteDir(dir map[string]info, name string) {
@@ -93,4 +106,18 @@ func deleteDir(dir map[string]info, name string) {
 		return
 	}
 	delete(dir, strings.ToLower(name))
+}
+
+func updateDir(dir map[string]info, name string, phone string) {
+	_, ok := dir[strings.ToLower(name)]
+	if !ok {
+		fmt.Println("Person not found in directory")
+		return
+	}
+	dir[strings.ToLower(name)] = info{
+		phone: phone,
+	}
+
+	fmt.Println("Info updated : ")
+	searchDir(dir, name)
 }
