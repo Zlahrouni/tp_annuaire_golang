@@ -34,7 +34,7 @@ func main() {
 	case "modify":
 		fmt.Println("modify")
 	case "delete":
-		fmt.Println("delete")
+		deleteDir(dir, *name)
 	default:
 		fmt.Println("Unknown action")
 	}
@@ -86,11 +86,11 @@ func addDir(dir map[string]info, name string, phone string) {
 	dir[name] = info{phone: phone}
 }
 
-//func deleteDir(dir map[string]info, name string) {
-//	_, ok := dir[strings.ToLower(name)]
-//	if !ok {
-//		fmt.Println("Person not found in directory")
-//		return
-//	}
-//	delete(dir[name])
-//}
+func deleteDir(dir map[string]info, name string) {
+	_, ok := dir[strings.ToLower(name)]
+	if !ok {
+		fmt.Println("Person not found in directory")
+		return
+	}
+	delete(dir, name)
+}
