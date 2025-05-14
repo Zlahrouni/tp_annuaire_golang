@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -40,19 +39,19 @@ func main() {
 	}
 }
 
-func paramVerif(name string, phone string, ageStr string) {
+func paramVerif(name string, phone string /*ageStr string*/) {
 	if name == "" {
 		fmt.Errorf("Name must not be empty")
 	}
 	if phone == "" {
 		fmt.Errorf("Number must not be empty")
-	} else if len(phone) == 10 {
+	} else if len(phone) != 10 {
 		fmt.Errorf("Number must have at 10 digits")
 	}
-	_, err := strconv.Atoi(ageStr)
+	/*_, err := strconv.Atoi(ageStr)
 	if err != nil {
 		fmt.Errorf("Age must be a number")
-	}
+	}*/
 }
 
 func listDir(dir map[string]info) {
