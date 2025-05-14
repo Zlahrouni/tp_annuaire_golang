@@ -92,5 +92,5 @@ func deleteDir(dir map[string]info, name string) {
 		fmt.Println("Person not found in directory")
 		return
 	}
-	delete(dir, name)
+	delete(dir, strings.ToLower(name))
 }
